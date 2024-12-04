@@ -5,7 +5,7 @@ import { getHttpEndpoint } from "@orbs-network/ton-access";
 import { TonClient } from "@ton/ton";
 import { Sender, toNano, Address } from "@ton/core";
 import TonConnectSender from "@/hooks/TonConnectSender";
-import { hackaTON } from "@/compileCode/hackaTON";
+import { hackaTON } from "@/compileCode/hackaton";
 
 const HackaTONFrontend = () => {
     const [tonConnector] = useTonConnectUI();
@@ -19,6 +19,13 @@ const HackaTONFrontend = () => {
         dataHash: "",
         devScore: 0
     });
+    
+    const [allHackers, setAllHackers] = useState<{
+        address: string | null;
+        dataHash: string;
+        devScore: number;
+    }[]>([]);
+    // const [hackerId, setHackerId] = useState<Number>(0);
 
     // Create User (Hacker) Function  
     const createHacker = async () => {
@@ -90,15 +97,23 @@ const HackaTONFrontend = () => {
             // Get hacker details
             const hackerAddress = Address.parse(wallet.account.address);
             const hackerDetails = await hackaTONContract.getGetHacker(hackerAddress);
+            console.log(hackerDetails);
+            
 
             // Update state with fetched hacker details
             setHacker({
-                address: wallet.account.address,
+                address: hackerDetails.addr.toString(),
                 dataHash: hackerDetails.dataHash,
                 devScore: Number(hackerDetails.devScore)
             });
 
             alert("Hacker details retrieved successfully!");
+            console.log({
+                address: hackerDetails.addr.toString(),
+                dataHash: hackerDetails.dataHash,
+                devScore: Number(hackerDetails.devScore)
+            });
+            
         } catch (error) {
             console.error("Error getting hacker:", error);
             alert("Failed to retrieve hacker details");
@@ -106,6 +121,56 @@ const HackaTONFrontend = () => {
             setLoading(false);
         }
     };
+
+    // Get all Hackers
+    const getAllHackers = async () => {
+        setLoading(true);
+        try {
+            const wallet = tonConnector.connector.wallet;
+            if (!wallet) {
+                alert("Please connect your wallet first");
+                setLoading(false);
+                return;
+            }
+
+            const endpoint = await getHttpEndpoint({
+                network: "testnet"
+            });
+            const client = new TonClient({ endpoint });
+
+            // Open the contract
+            const contract = await hackaTON.fromInit();
+            const hackaTONContract = client.open(contract);
+
+            const hackers = await hackaTONContract.getAllHackers();
+            
+            const hackersArray = (Object.values(hackers))[2];
+            // console.log(hackersArray);
+            const destructuredHackers = [] as { address: string | null; dataHash: string; devScore: number }[]; 
+
+            hackersArray.forEach((value, key) => {
+                // Extract key and value
+                const hackerAddress = value.addr ? value.addr.toString() : null; // Convert Address to string if needed
+                const dataHash = value.dataHash;
+                const devScore = Number(value.devScore); // Convert BigInt to number (if needed)
+            
+                // Push the destructured data into the array
+                destructuredHackers.push({
+                    address: hackerAddress,
+                    dataHash,
+                    devScore
+                });
+            });
+            setAllHackers(destructuredHackers);
+            console.log(destructuredHackers);
+            
+        } catch (error) {
+            console.error("Error getting all hackers:", error);
+            alert("Failed to retrieve all hackers details");
+        } finally {
+            setLoading(false);
+        }
+    }
 
     return (
         <div className="main-wrapper">
@@ -139,7 +204,30 @@ const HackaTONFrontend = () => {
                 </div>
 
                 <div className="hacker-retrieval">
+                    <h2>Get All Hacker</h2>
+                    <button
+                        onClick={getAllHackers}
+                        disabled={loading}
+                    >
+                        {loading ? "Retrieving..." : "Get All Hackers"}
+                    </button>
+
+                    {/* {hacker.address && (
+                        <div className="hacker-details">
+                            <p>Address: {hacker.address}</p>
+                            <p>Data Hash: {hacker.dataHash}</p>
+                            <p>Dev Score: {hacker.devScore}</p>
+                        </div>
+                    )} */}
+                </div>
+                <div className="hacker-retrieval">
                     <h2>Get Hacker Details</h2>
+                    {/* <input
+                        type="number"
+                        placeholder="Hacker Id"
+                        value={hackerId.toString()}
+                        onChange={(e) => setHackerId(parseInt(e.target.value))}
+                    /> */}
                     <button
                         onClick={getHacker}
                         disabled={loading}

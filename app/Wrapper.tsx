@@ -26,6 +26,13 @@ const Wrapper: FC<PropsWithChildren> = ({children}) => {
                 <IconMessage className="h-4 w-4 text-neutral-500 dark:text-white" />
             ),
         },
+        {
+            name: "Hacker",
+            link: "/hacker",
+            icon: (
+                <IconMessage className="h-4 w-4 text-neutral-500 dark:text-white" />
+            ),
+        },
     ];
 
     return (
