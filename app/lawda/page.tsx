@@ -1,5 +1,6 @@
+"use client"
 import React, { useState } from "react";
-import { TonConnectButton, useTonConnectUI } from "@tonconnect/ui-react";
+import { useTonConnectUI } from "@tonconnect/ui-react";
 import { getHttpEndpoint } from "@orbs-network/ton-access";
 import { TonClient } from "@ton/ton";
 import { Sender, toNano, Address } from "@ton/core";
@@ -19,7 +20,7 @@ const HackaTONFrontend = () => {
         devScore: 0
     });
 
-    // Create User (Hacker) Function
+    // Create User (Hacker) Function  
     const createHacker = async () => {
         setLoading(true);
         try {
@@ -108,11 +109,8 @@ const HackaTONFrontend = () => {
 
     return (
         <div className="main-wrapper">
-            <TonConnectButton />
-            <div>
-                <h1>HackaTON Platform</h1>
-
-                <div className="hacker-creation-form">
+            <div className="mt-40">
+                <div className="hacker-creation-form mb-40" >
                     <h2>Create Hacker Profile</h2>
                     <input
                         type="text"
