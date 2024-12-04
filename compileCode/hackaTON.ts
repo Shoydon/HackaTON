@@ -468,7 +468,6 @@ export type Hacker = {
     $$type: 'Hacker';
     addr: Address;
     dataHash: string;
-    teamInvites: Dictionary<bigint, bigint>;
     devScore: bigint;
 }
 
@@ -477,7 +476,6 @@ export function storeHacker(src: Hacker) {
         let b_0 = builder;
         b_0.storeAddress(src.addr);
         b_0.storeStringRefTail(src.dataHash);
-        b_0.storeDict(src.teamInvites, Dictionary.Keys.BigInt(257), Dictionary.Values.BigInt(257));
         b_0.storeInt(src.devScore, 257);
     };
 }
@@ -486,32 +484,28 @@ export function loadHacker(slice: Slice) {
     let sc_0 = slice;
     let _addr = sc_0.loadAddress();
     let _dataHash = sc_0.loadStringRefTail();
-    let _teamInvites = Dictionary.load(Dictionary.Keys.BigInt(257), Dictionary.Values.BigInt(257), sc_0);
     let _devScore = sc_0.loadIntBig(257);
-    return { $$type: 'Hacker' as const, addr: _addr, dataHash: _dataHash, teamInvites: _teamInvites, devScore: _devScore };
+    return { $$type: 'Hacker' as const, addr: _addr, dataHash: _dataHash, devScore: _devScore };
 }
 
 function loadTupleHacker(source: TupleReader) {
     let _addr = source.readAddress();
     let _dataHash = source.readString();
-    let _teamInvites = Dictionary.loadDirect(Dictionary.Keys.BigInt(257), Dictionary.Values.BigInt(257), source.readCellOpt());
     let _devScore = source.readBigNumber();
-    return { $$type: 'Hacker' as const, addr: _addr, dataHash: _dataHash, teamInvites: _teamInvites, devScore: _devScore };
+    return { $$type: 'Hacker' as const, addr: _addr, dataHash: _dataHash, devScore: _devScore };
 }
 
 function loadGetterTupleHacker(source: TupleReader) {
     let _addr = source.readAddress();
     let _dataHash = source.readString();
-    let _teamInvites = Dictionary.loadDirect(Dictionary.Keys.BigInt(257), Dictionary.Values.BigInt(257), source.readCellOpt());
     let _devScore = source.readBigNumber();
-    return { $$type: 'Hacker' as const, addr: _addr, dataHash: _dataHash, teamInvites: _teamInvites, devScore: _devScore };
+    return { $$type: 'Hacker' as const, addr: _addr, dataHash: _dataHash, devScore: _devScore };
 }
 
 function storeTupleHacker(source: Hacker) {
     let builder = new TupleBuilder();
     builder.writeAddress(source.addr);
     builder.writeString(source.dataHash);
-    builder.writeCell(source.teamInvites.size > 0 ? beginCell().storeDictDirect(source.teamInvites, Dictionary.Keys.BigInt(257), Dictionary.Values.BigInt(257)).endCell() : null);
     builder.writeNumber(source.devScore);
     return builder.build();
 }
@@ -1063,8 +1057,8 @@ function dictValueParserSetWinnerParams(): DictionaryValue<SetWinnerParams> {
     }
 }
 
-export type HackerOne$Data = {
-    $$type: 'HackerOne$Data';
+export type hackaTON$Data = {
+    $$type: 'hackaTON$Data';
     hackers: Dictionary<Address, Hacker>;
     hackersCount: bigint;
     hackathons: Dictionary<bigint, Hackathon>;
@@ -1074,7 +1068,7 @@ export type HackerOne$Data = {
     platformOwner: Address;
 }
 
-export function storeHackerOne$Data(src: HackerOne$Data) {
+export function storehackaTON$Data(src: hackaTON$Data) {
     return (builder: Builder) => {
         let b_0 = builder;
         b_0.storeDict(src.hackers, Dictionary.Keys.Address(), dictValueParserHacker());
@@ -1089,7 +1083,7 @@ export function storeHackerOne$Data(src: HackerOne$Data) {
     };
 }
 
-export function loadHackerOne$Data(slice: Slice) {
+export function loadhackaTON$Data(slice: Slice) {
     let sc_0 = slice;
     let _hackers = Dictionary.load(Dictionary.Keys.Address(), dictValueParserHacker(), sc_0);
     let _hackersCount = sc_0.loadIntBig(257);
@@ -1099,10 +1093,10 @@ export function loadHackerOne$Data(slice: Slice) {
     let _teams = Dictionary.load(Dictionary.Keys.BigInt(257), dictValueParserTeam(), sc_1);
     let _currTeamId = sc_1.loadIntBig(257);
     let _platformOwner = sc_1.loadAddress();
-    return { $$type: 'HackerOne$Data' as const, hackers: _hackers, hackersCount: _hackersCount, hackathons: _hackathons, hackathonsCount: _hackathonsCount, teams: _teams, currTeamId: _currTeamId, platformOwner: _platformOwner };
+    return { $$type: 'hackaTON$Data' as const, hackers: _hackers, hackersCount: _hackersCount, hackathons: _hackathons, hackathonsCount: _hackathonsCount, teams: _teams, currTeamId: _currTeamId, platformOwner: _platformOwner };
 }
 
-function loadTupleHackerOne$Data(source: TupleReader) {
+function loadTuplehackaTON$Data(source: TupleReader) {
     let _hackers = Dictionary.loadDirect(Dictionary.Keys.Address(), dictValueParserHacker(), source.readCellOpt());
     let _hackersCount = source.readBigNumber();
     let _hackathons = Dictionary.loadDirect(Dictionary.Keys.BigInt(257), dictValueParserHackathon(), source.readCellOpt());
@@ -1110,10 +1104,10 @@ function loadTupleHackerOne$Data(source: TupleReader) {
     let _teams = Dictionary.loadDirect(Dictionary.Keys.BigInt(257), dictValueParserTeam(), source.readCellOpt());
     let _currTeamId = source.readBigNumber();
     let _platformOwner = source.readAddress();
-    return { $$type: 'HackerOne$Data' as const, hackers: _hackers, hackersCount: _hackersCount, hackathons: _hackathons, hackathonsCount: _hackathonsCount, teams: _teams, currTeamId: _currTeamId, platformOwner: _platformOwner };
+    return { $$type: 'hackaTON$Data' as const, hackers: _hackers, hackersCount: _hackersCount, hackathons: _hackathons, hackathonsCount: _hackathonsCount, teams: _teams, currTeamId: _currTeamId, platformOwner: _platformOwner };
 }
 
-function loadGetterTupleHackerOne$Data(source: TupleReader) {
+function loadGetterTuplehackaTON$Data(source: TupleReader) {
     let _hackers = Dictionary.loadDirect(Dictionary.Keys.Address(), dictValueParserHacker(), source.readCellOpt());
     let _hackersCount = source.readBigNumber();
     let _hackathons = Dictionary.loadDirect(Dictionary.Keys.BigInt(257), dictValueParserHackathon(), source.readCellOpt());
@@ -1121,10 +1115,10 @@ function loadGetterTupleHackerOne$Data(source: TupleReader) {
     let _teams = Dictionary.loadDirect(Dictionary.Keys.BigInt(257), dictValueParserTeam(), source.readCellOpt());
     let _currTeamId = source.readBigNumber();
     let _platformOwner = source.readAddress();
-    return { $$type: 'HackerOne$Data' as const, hackers: _hackers, hackersCount: _hackersCount, hackathons: _hackathons, hackathonsCount: _hackathonsCount, teams: _teams, currTeamId: _currTeamId, platformOwner: _platformOwner };
+    return { $$type: 'hackaTON$Data' as const, hackers: _hackers, hackersCount: _hackersCount, hackathons: _hackathons, hackathonsCount: _hackathonsCount, teams: _teams, currTeamId: _currTeamId, platformOwner: _platformOwner };
 }
 
-function storeTupleHackerOne$Data(source: HackerOne$Data) {
+function storeTuplehackaTON$Data(source: hackaTON$Data) {
     let builder = new TupleBuilder();
     builder.writeCell(source.hackers.size > 0 ? beginCell().storeDictDirect(source.hackers, Dictionary.Keys.Address(), dictValueParserHacker()).endCell() : null);
     builder.writeNumber(source.hackersCount);
@@ -1136,39 +1130,39 @@ function storeTupleHackerOne$Data(source: HackerOne$Data) {
     return builder.build();
 }
 
-function dictValueParserHackerOne$Data(): DictionaryValue<HackerOne$Data> {
+function dictValueParserhackaTON$Data(): DictionaryValue<hackaTON$Data> {
     return {
         serialize: (src, builder) => {
-            builder.storeRef(beginCell().store(storeHackerOne$Data(src)).endCell());
+            builder.storeRef(beginCell().store(storehackaTON$Data(src)).endCell());
         },
         parse: (src) => {
-            return loadHackerOne$Data(src.loadRef().beginParse());
+            return loadhackaTON$Data(src.loadRef().beginParse());
         }
     }
 }
 
- type HackerOne_init_args = {
-    $$type: 'HackerOne_init_args';
+ type hackaTON_init_args = {
+    $$type: 'hackaTON_init_args';
 }
 
-function initHackerOne_init_args(src: HackerOne_init_args) {
+function inithackaTON_init_args(src: hackaTON_init_args) {
     return (builder: Builder) => {
         let b_0 = builder;
     };
 }
 
-async function HackerOne_init() {
-    const __code = Cell.fromBase64('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');
-    const __system = Cell.fromBase64('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');
+async function hackaTON_init() {
+    const __code = Cell.fromBase64('te6ccgECKgEACsQAART/APSkE/S88sgLAQIBYgIDA3rQAdDTAwFxsKMB+kABINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiFRQUwNvBPhhAvhi2zxVFts88uCCJgQFAgEgGxwD8AGSMH/gcCHXScIflTAg1wsf3iCCEFLUzIO64wIgghAOLtqWuo7QMNMfAYIQDi7alrry4IHUAdAB1AHQAYEBAdcAVSBsE/hCJ1Uwf21tEDYQNRA0VWCBAQEIyFVw2zzJJRA3ASBulTBZ9FowlEEz9BXiA6QDBH/gIAYYBwCYyPhDAcx/AcoAVWBQZ/QAFIEBAc8AAsj0AIEBAc8AEvQAEoEBAc8AWCDXSYEBC7ry4Igg1wsKIIEE/7ry0ImDCbry4IjPFskBzMntVADUMNMfAYIQUtTMg7ry4IHUAdABgQEB1wBZbBL4QlICE1mBAQsDyFUgWiDXSYEBC7ry4Igg1wsKIIEE/7ry0ImDCbry4IjPFshQA88WyVjMgQEBzwDJEDkSIG6VMFn0WTCUQTP0E+IFpAUGfwTsghAPleT2uo6XMNMfAYIQD5Xk9rry4IHUAdAB9ARZbBLgIIIQxYz2YrqOuDDTHwGCEMWM9mK68uCBgQEB1wD6QAEg10mBAQu68uCIINcLCiCBBP+68tCJgwm68uCIEmwS2zx/4CCCEMoG75K64wIgghDvCyqvuggJCgsA5jD4Qm2BAQFYcAEgbpUwWfRaMJRBM/QU4vhCJEMTcVUwgQEBBchVQFBFgQEBzwDIUAPPFslYzAEg10mBAQu68uCIINcLCiCBBP+68tCJgwm68uCIzxb0AIEBAc8AySMQNQEgbpUwWfRaMJRBM/QV4gGkWH8B9oIAoYQlgQEBJFn0DG+hMfL0gSBj+EImgQEBJVn0DW+hkjBt3yBukjBtjjfQgQEB1wDUAdAB+kABINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiAH0BIEBAdcAVUBsFW8F4iBu8tCAbyUQJF8ExwXy9BBoXjQQN0h4JwwBPDDTHwGCEMoG75K68uCBgQEB1wCBAQHXAFlsEts8fw0DvI6eMNMfAYIQ7wsqr7ry4IGBAQHXAIEBAdcAWWwS2zx/4CCCEETuboi64wKCEJRqmLa6jqfTHwGCEJRqmLa68uCB0z8BMcgBghCv+Q9XWMsfyz/J+EIBcG3bPH/gMHAREhMB4ts8NIEBAVhSTiBulTBZ9FowlEEz9BTiAqQqQxRMzFUwgQEBBchVQFBFgQEBzwDIUAPPFslYzAEg10mBAQu68uCIINcLCiCBBP+68tCJgwm68uCIzxb0AIEBAc8AyUGAIG6VMFn0WjCUQTP0FeIQRlUTJQT2EGheNBA3SHgn2zwwgXBvLIEBAVYRWfQMb6Ex8vSCALYxKoEBAVYSWfQMb6Ex8vRwLIEBAVYRWfQNb6GSMG3fIG6SMG2Oh9DbPGwYbwjiIG7y0IBvKBdfB4EBAVRRAFn0hG+lIJZQI9cAMFiWbCFtMm0B4pCK6F8DgViCJykODwBIVhO6kn8z3oEBAVMCUDNBM/R4b6UgllAj1wAwWJZsIW0ybQHiAvwhs/L0LIEBAVYRWfQNb6GSMG3fIG6SMG2Oh9DbPGwYbwjiIG7y0IBvKGxxcIEBAVRSAFn0hG+lIJZQI9cAMFiWbCFtMm0B4pCOJ1YUupJ/NN4BpIEBAVMDA1BEQTP0eG+lIJZQI9cAMFiWbCFtMm0B4uhbgSIyA7MT8vSBAQEpEAGSVBMiEgEREwEhbpVbWfRaMJjIAc8AQTP0QuIQZxBWEEUQNEEwH1VggQEBCMhVcNs8yRA1QYAgbpUwWfRaMJRBM/QV4hBGEDVQNBgD1oFwbyeBAQEkWfQMb6Ex8vQQaF40EDdIeCfbPIIA9IP4QlKAxwXy9IIAtjErgQEBVhNZ9AxvoTHy9HBwcIEBAVRVAFn0hG+lIJZQI9cAMFiWbCFtMm0B4pCK6FuBEGcCsxLy9HB/gQEBVFUAJxQVAvQw0x8BghBE7m6IuvLggYEBAdcAgQEB1wBZbBKCAKrfJ4EBASRZ9AxvoTHy9IIAoYQlgQEBI1n0DG+hMfL0EGheNBA3SHgn2zwyEGcQVhBFEDQQI08AVWCBAQEIyFVw2zzJEDVBgCBulTBZ9FowlEEz9BXiEEYQNVA0fycYATxtbSJus5lbIG7y0IBvIgGRMuIQJHADBIBCUCPbPDAZAE5WFbqSfzPeAaSBAQFTBgNQREEz9HhvpSCWUCPXADBYlmwhbTJtAeIC8ln0hG+lIJZQI9cAMFiWbCFtMm0B4pCOKlYWupUxMyJ/BN4CpIEBAVMGA1BVQTP0eG+lIJZQI9cAMFiWbCFtMm0B4uhbgTsbUATy9JQipCG5iuiBAQEzpW0jEEUQNSFulVtZ9FowmMgBzwBBM/RC4oEBAVQSIgEREwEWFwBygQEBUwOkUxZVIEEz9AxvoZQB1wAwkltt4iBu8tCAUxQQR1khbpVbWfRaMJjIAc8AQTP0QuICpEATAXIhbpVbWfRaMJjIAc8AQTP0QuJVBg9VYIEBAQjIVXDbPMkQNUGAIG6VMFn0WjCUQTP0FeIQRhA1UDQYAJhQeIEBAc8AUAUg10mBAQu68uCIINcLCiCBBP+68tCJgwm68uCIzxbIUATPFslQA8zIWM8WyQHMgQEBzwAByIEBAc8AEvQAEvQAyQHMAcrIcQHKAVAHAcoAcAHKAlAFINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiM8WUAP6AnABymgjbrORf5MkbrPilzMzAXABygDjDSFus5x/AcoAASBu8tCAAcyVMXABygDiyQH7CBoAmH8BygDIcAHKAHABygAkbrOdfwHKAAQgbvLQgFAEzJY0A3ABygDiJG6znX8BygAEIG7y0IBQBMyWNANwAcoA4nABygACfwHKAALJWMwCASAdHgARvhX3aiaGkAAMAk255uINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiNs8VQbbPGxzgmHwIBICAhALqBShcogQELI1n0Cm+hMfL0gQELKAJZ9AtvoZIwbd8gbpIwbY4w0PpAASDXSYEBC7ry4Igg1wsKIIEE/7ry0ImDCbry4IgB1AHQAYEBAdcAVSBsE28D4iBu8tCAbyMCEbQg22ebZ42OMCYiAgEgIyQAAiYCFbIhts8VQbbPGx1gJiUCFbKbts8VQbbPGx4gJicAyoIAoYQkgQEBI1n0DG+hMfL0gQEBJAJZ9A1voZIwbd8gbpIwbY430IEBAdcA1AHQAfpAASDXSYEBC7ry4Igg1wsKIIEE/7ry0ImDCbry4IgB9ASBAQHXAFVAbBVvBeIgbvLQgG8lAbLtRNDUAfhj0gABjj70BIEBAdcA1AHQ9ASBAQHXAPQEgQEB1wD6QAEg10mBAQu68uCIINcLCiCBBP+68tCJgwm68uCIMRBXEFZsF+Aw+CjXCwqDCbry4InbPCgBaoIAqt8mgQEBI1n0DG+hMfL0gQEBJgJZ9A1voZIwbd8gbpIwbY6H0Ns8bBhvCOIgbvLQgG8oKQAccFMAbW1t+EIQNhA1QUAAkoEBAdcA+kABINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiAHUAdAB1AHQAYEBAdcA1AHQgQEB1wD0BPQEMBA4EDcQNhA1EDQ=');
+    const __system = Cell.fromBase64('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');
     let builder = beginCell();
     builder.storeRef(__system);
     builder.storeUint(0, 1);
-    initHackerOne_init_args({ $$type: 'HackerOne_init_args' })(builder);
+    inithackaTON_init_args({ $$type: 'hackaTON_init_args' })(builder);
     const __data = builder.endCell();
     return { code: __code, data: __data };
 }
 
-const HackerOne_errors: { [key: number]: { message: string } } = {
+const hackaTON_errors: { [key: number]: { message: string } } = {
     2: { message: `Stack underflow` },
     3: { message: `Stack overflow` },
     4: { message: `Integer overflow` },
@@ -1218,7 +1212,7 @@ const HackerOne_errors: { [key: number]: { message: string } } = {
     62595: { message: `Only hackathon creator can use this function` },
 }
 
-const HackerOne_types: ABIType[] = [
+const hackaTON_types: ABIType[] = [
     {"name":"StateInit","header":null,"fields":[{"name":"code","type":{"kind":"simple","type":"cell","optional":false}},{"name":"data","type":{"kind":"simple","type":"cell","optional":false}}]},
     {"name":"StdAddress","header":null,"fields":[{"name":"workchain","type":{"kind":"simple","type":"int","optional":false,"format":8}},{"name":"address","type":{"kind":"simple","type":"uint","optional":false,"format":256}}]},
     {"name":"VarAddress","header":null,"fields":[{"name":"workchain","type":{"kind":"simple","type":"int","optional":false,"format":32}},{"name":"address","type":{"kind":"simple","type":"slice","optional":false}}]},
@@ -1227,7 +1221,7 @@ const HackerOne_types: ABIType[] = [
     {"name":"Deploy","header":2490013878,"fields":[{"name":"queryId","type":{"kind":"simple","type":"uint","optional":false,"format":64}}]},
     {"name":"DeployOk","header":2952335191,"fields":[{"name":"queryId","type":{"kind":"simple","type":"uint","optional":false,"format":64}}]},
     {"name":"FactoryDeploy","header":1829761339,"fields":[{"name":"queryId","type":{"kind":"simple","type":"uint","optional":false,"format":64}},{"name":"cashback","type":{"kind":"simple","type":"address","optional":false}}]},
-    {"name":"Hacker","header":null,"fields":[{"name":"addr","type":{"kind":"simple","type":"address","optional":false}},{"name":"dataHash","type":{"kind":"simple","type":"string","optional":false}},{"name":"teamInvites","type":{"kind":"dict","key":"int","value":"int"}},{"name":"devScore","type":{"kind":"simple","type":"int","optional":false,"format":257}}]},
+    {"name":"Hacker","header":null,"fields":[{"name":"addr","type":{"kind":"simple","type":"address","optional":false}},{"name":"dataHash","type":{"kind":"simple","type":"string","optional":false}},{"name":"devScore","type":{"kind":"simple","type":"int","optional":false,"format":257}}]},
     {"name":"Hackathon","header":null,"fields":[{"name":"id","type":{"kind":"simple","type":"int","optional":false,"format":257}},{"name":"creator","type":{"kind":"simple","type":"address","optional":false}},{"name":"name","type":{"kind":"simple","type":"string","optional":false}},{"name":"description","type":{"kind":"simple","type":"string","optional":false}},{"name":"prizePool","type":{"kind":"simple","type":"int","optional":false,"format":257}},{"name":"winningTeamId","type":{"kind":"simple","type":"int","optional":false,"format":257}},{"name":"approvedTeams","type":{"kind":"dict","key":"int","value":"int"}},{"name":"pendingRequests","type":{"kind":"dict","key":"int","value":"int"}}]},
     {"name":"Team","header":null,"fields":[{"name":"id","type":{"kind":"simple","type":"int","optional":false,"format":257}},{"name":"name","type":{"kind":"simple","type":"string","optional":false}},{"name":"leader","type":{"kind":"simple","type":"address","optional":false}},{"name":"members","type":{"kind":"dict","key":"int","value":"address"}},{"name":"length","type":{"kind":"simple","type":"int","optional":false,"format":257}}]},
     {"name":"CreateHackerParams","header":1389677699,"fields":[{"name":"dataHash","type":{"kind":"simple","type":"string","optional":false}},{"name":"devScore","type":{"kind":"simple","type":"int","optional":false,"format":257}}]},
@@ -1237,24 +1231,24 @@ const HackerOne_types: ABIType[] = [
     {"name":"CreateTeamParams","header":261481718,"fields":[{"name":"name","type":{"kind":"simple","type":"string","optional":false}},{"name":"members","type":{"kind":"dict","key":"int","value":"address"}}]},
     {"name":"AddMemberToTeam","header":3314349666,"fields":[{"name":"teamId","type":{"kind":"simple","type":"int","optional":false,"format":257}},{"name":"member","type":{"kind":"simple","type":"address","optional":false}}]},
     {"name":"SetWinnerParams","header":1156476552,"fields":[{"name":"hackathonId","type":{"kind":"simple","type":"int","optional":false,"format":257}},{"name":"teamId","type":{"kind":"simple","type":"int","optional":false,"format":257}}]},
-    {"name":"HackerOne$Data","header":null,"fields":[{"name":"hackers","type":{"kind":"dict","key":"address","value":"Hacker","valueFormat":"ref"}},{"name":"hackersCount","type":{"kind":"simple","type":"int","optional":false,"format":257}},{"name":"hackathons","type":{"kind":"dict","key":"int","value":"Hackathon","valueFormat":"ref"}},{"name":"hackathonsCount","type":{"kind":"simple","type":"int","optional":false,"format":257}},{"name":"teams","type":{"kind":"dict","key":"int","value":"Team","valueFormat":"ref"}},{"name":"currTeamId","type":{"kind":"simple","type":"int","optional":false,"format":257}},{"name":"platformOwner","type":{"kind":"simple","type":"address","optional":false}}]},
+    {"name":"hackaTON$Data","header":null,"fields":[{"name":"hackers","type":{"kind":"dict","key":"address","value":"Hacker","valueFormat":"ref"}},{"name":"hackersCount","type":{"kind":"simple","type":"int","optional":false,"format":257}},{"name":"hackathons","type":{"kind":"dict","key":"int","value":"Hackathon","valueFormat":"ref"}},{"name":"hackathonsCount","type":{"kind":"simple","type":"int","optional":false,"format":257}},{"name":"teams","type":{"kind":"dict","key":"int","value":"Team","valueFormat":"ref"}},{"name":"currTeamId","type":{"kind":"simple","type":"int","optional":false,"format":257}},{"name":"platformOwner","type":{"kind":"simple","type":"address","optional":false}}]},
 ]
 
-const HackerOne_getters: ABIGetter[] = [
+const hackaTON_getters: ABIGetter[] = [
     {"name":"getHacker","arguments":[{"name":"_addr","type":{"kind":"simple","type":"address","optional":false}}],"returnType":{"kind":"simple","type":"Hacker","optional":false}},
     {"name":"allHackers","arguments":[],"returnType":{"kind":"dict","key":"address","value":"Hacker","valueFormat":"ref"}},
     {"name":"getHackathon","arguments":[{"name":"_id","type":{"kind":"simple","type":"int","optional":false,"format":257}}],"returnType":{"kind":"simple","type":"Hackathon","optional":false}},
     {"name":"getTeam","arguments":[{"name":"teamId","type":{"kind":"simple","type":"int","optional":false,"format":257}}],"returnType":{"kind":"simple","type":"Team","optional":false}},
 ]
 
-export const HackerOne_getterMapping: { [key: string]: string } = {
+export const hackaTON_getterMapping: { [key: string]: string } = {
     'getHacker': 'getGetHacker',
     'allHackers': 'getAllHackers',
     'getHackathon': 'getGetHackathon',
     'getTeam': 'getGetTeam',
 }
 
-const HackerOne_receivers: ABIReceiver[] = [
+const hackaTON_receivers: ABIReceiver[] = [
     {"receiver":"internal","message":{"kind":"typed","type":"CreateHackerParams"}},
     {"receiver":"internal","message":{"kind":"typed","type":"CreateHackathonParams"}},
     {"receiver":"internal","message":{"kind":"typed","type":"CreateTeamParams"}},
@@ -1265,29 +1259,29 @@ const HackerOne_receivers: ABIReceiver[] = [
     {"receiver":"internal","message":{"kind":"typed","type":"Deploy"}},
 ]
 
-export class HackerOne implements Contract {
+export class hackaTON implements Contract {
     
     static async init() {
-        return await HackerOne_init();
+        return await hackaTON_init();
     }
     
     static async fromInit() {
-        const init = await HackerOne_init();
+        const init = await hackaTON_init();
         const address = contractAddress(0, init);
-        return new HackerOne(address, init);
+        return new hackaTON(address, init);
     }
     
     static fromAddress(address: Address) {
-        return new HackerOne(address);
+        return new hackaTON(address);
     }
     
     readonly address: Address; 
     readonly init?: { code: Cell, data: Cell };
     readonly abi: ContractABI = {
-        types:  HackerOne_types,
-        getters: HackerOne_getters,
-        receivers: HackerOne_receivers,
-        errors: HackerOne_errors,
+        types:  hackaTON_types,
+        getters: hackaTON_getters,
+        receivers: hackaTON_receivers,
+        errors: hackaTON_errors,
     };
     
     private constructor(address: Address, init?: { code: Cell, data: Cell }) {
