@@ -75,6 +75,7 @@ contract hackaTON with Deployable {
     self.hackathons = emptyMap();
     self.teams = emptyMap();
     self.platformOwner = sender();
+    self.hackathonsCount = 0;
   }
 
   // create hacker
@@ -94,6 +95,11 @@ contract hackaTON with Deployable {
   get fun getHacker(_addr: Address): Hacker {
     require(self.hackers.exists(_addr), "Hacker doesn't exist");
     return self.hackers.get(_addr)!!;
+  }
+
+  //get hackathon count
+  get fun getHackathonCount(): Int {
+    return self.hackathonsCount;
   }
 
   // get all hackers

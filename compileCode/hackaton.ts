@@ -1246,6 +1246,7 @@ export const hackaTON_getterMapping: { [key: string]: string } = {
     'allHackers': 'getAllHackers',
     'getHackathon': 'getGetHackathon',
     'getTeam': 'getGetTeam',
+    'getHackathonCount': 'getGetHackathonCount',
 }
 
 const hackaTON_receivers: ABIReceiver[] = [
@@ -1334,6 +1335,12 @@ export class hackaTON implements Contract {
         let builder = new TupleBuilder();
         let source = (await provider.get('allHackers', builder.build())).stack;
         let result = Dictionary.loadDirect(Dictionary.Keys.Address(), dictValueParserHacker(), source.readCellOpt());
+        return result;
+    }
+    async getGetHackathonCount(provider: ContractProvider) {
+        let builder = new TupleBuilder();
+        let source = (await provider.get('getHackathonCount', builder.build())).stack;
+        let result = source.readBigNumber();
         return result;
     }
     

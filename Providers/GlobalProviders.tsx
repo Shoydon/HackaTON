@@ -28,8 +28,8 @@ const GlobalProviders: React.FC<GlobalProvidersProps> = ({ children }) => {
   const getUser = async () => {
     setLoading(true);
     try {
+      if(wallet?.account.address)
         console.log(wallet?.account.address);
-      
     //   setUser(fetchedUser);
     } catch (error) {
       console.error('Error fetching user:', error);
@@ -41,7 +41,7 @@ const GlobalProviders: React.FC<GlobalProvidersProps> = ({ children }) => {
 
   useEffect(() => {
     getUser(); // Fetch user data on initial load
-  }, []);
+  }, [wallet?.account.address]);
 
   return (
     <GlobalContext.Provider value={{ user, setUser, loading, setLoading }}>

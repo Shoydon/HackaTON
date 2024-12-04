@@ -23,7 +23,7 @@ export default function Navbar() {
   }, [])
 
   return (
-    <nav className={`fixed w-full z-10 transition-colors duration-300 ${navBackground}`}>
+    <nav className={`fixed w-full z-[100] transition-colors duration-300 ${navBackground}`}>
       <div className="container mx-auto px-6 py-3 flex justify-between items-center">
         <div className="text-xl font-bold">
           <Link href="/">
@@ -31,10 +31,8 @@ export default function Navbar() {
           </Link>
         </div>
         <div className="flex items-center space-x-4">
-          <Link href="/about" className="hover:text-gray-300">About</Link>
-          <Link href="/services" className="hover:text-gray-300">Services</Link>
-          <Link href="/contact" className="hover:text-gray-300">Contact</Link>
-          <Link href="/hacker" className="hover:text-gray-300">Hacker</Link>
+          <Link href="/hackatons" className="hover:text-gray-300">Hackatons</Link>
+          <Link href="/profile" className="hover:text-gray-300">Profile</Link>
           <TonConnectButton />
         </div>
       </div>
