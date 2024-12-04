@@ -1,4 +1,4 @@
-import Card from '@/components/ui/card'
+import Card from '@/components/ui/HackathonCard'
 import { ShootingStars } from '@/components/ui/shooting-stars'
 import { StarsBackground } from '@/components/ui/tars-background'
 import React from 'react'

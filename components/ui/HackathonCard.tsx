@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { BackgroundGradient } from "../ui/background-gradient";
+import { BackgroundGradient } from "./background-gradient";
 
 type CardProps = {
     name: string;
@@ -8,7 +8,7 @@ type CardProps = {
     prizePool: string;
 };
 
-export default function Card({name, description, prizePool }: CardProps) {
+export default function HackathonCard({ name, description, prizePool }: CardProps) {
     return (
         <div>
             <BackgroundGradient className="rounded-[22px] max-w-sm p-4 sm:p-10 bg-white dark:bg-zinc-900">
