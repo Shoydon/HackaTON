@@ -6,14 +6,9 @@ struct Hackathon {
     name: String;
     description: String;
     prizePool: Int;
-    // teams: map<Int, Int>;
     winningTeamId: Int;
-    // approvedParticipants: map<Int, Address>;
     approvedTeams: map<Int, Int>;
-    // approvedParticipantsLength: Int;
-    // pendingRequests: map<Int, Address>;
     pendingRequests: map<Int, Int>;
-    // pendingRequestsLength: Int;
 }
 
 struct Team {
@@ -23,10 +18,6 @@ struct Team {
     members: map<Int, Address>;
     length: Int;
 }
-
-// struct HackathonTeams {
-//     hackathonTeams: map<Int, Int>;
-// }
 
 message CreateHackerParams {
     dataHash: String;
@@ -41,7 +32,6 @@ message CreateHackathonParams {
 
 message ApproveForHackathonParams {
     hackathonId: Int;
-    // participant: Address;
     teamId: Int;
 }
 
@@ -52,7 +42,6 @@ message JoinHackathonParams {
 
 message CreateTeamParams {
     name: String;
-    // hackathonId: Int;
     members: map<Int, Address>;
 }
 
@@ -68,17 +57,14 @@ message SetWinnerParams {
 
 contract HackerOne with Deployable {
     
-//   hackers: map<Address, Hacker>;
   hackersCount: Int = 0;
   hackathons: map<Int, Hackathon>;
   hackathonsCount: Int = 0;
   teams: map<Int, Team>;
   currTeamId: Int = 0;
-//   hackathonTeams: map<Int, HackathonTeams>;
   platformOwner: Address;
 
   init() {
-    // self.hackers = emptyMap();
     self.hackathons = emptyMap();
     self.teams = emptyMap();
     self.platformOwner = sender();
@@ -92,9 +78,7 @@ contract HackerOne with Deployable {
       description: msg.description,
       prizePool: msg.prizePool,
       creator: sender(),
-    //   teams: emptyMap(),
       winningTeamId: -1,
-    //   approvedParticipants: emptyMap(),
       approvedTeams: emptyMap(),
       pendingRequests: emptyMap()  
     };
@@ -132,9 +116,7 @@ contract HackerOne with Deployable {
     require(self.teams.exists(msg.teamId), "Team doesn't exist");
     require(self.teams.get(msg.teamId)!!.leader == sender(), "Only team leader can add members");
     let team = self.getTeam(msg.teamId);
-    // dump(team.length);
     let length = team.length;
-    // let members = team.members;
     team.members.set(length, msg.member);
     length += 1;
     let newTeam = Team {
@@ -152,7 +134,6 @@ contract HackerOne with Deployable {
     let hackathon = self.getHackathon(msg.hackathonId);
     require(self.hackathons.exists(msg.hackathonId), "Hackathon doesnt exist");
     require(self.teams.exists(msg.teamId), "Team doesn'texist");
-    // let teams = self.hackathons.get(msg.hackathonId)!!.teams;
 
     let alreadyPresent = false;
 
@@ -174,23 +155,16 @@ contract HackerOne with Deployable {
     }
     require(!alreadyPresent, "Team already registered");
 
-    // let team = self.teams.get(msg.teamId);
     pendingRequests.set(pendingRequestsLength, msg.teamId);
-    // self.hackathons.get(msg.hackathonId)!!.pendingRequests.set(pendingRequestsLength, msg.teamId);
-    // let hackathon = self.getHackathon(msg.hackathonId);
     let newHackathon = Hackathon {
         id: hackathon.id,
         creator: hackathon.creator,
         name: hackathon.name,
         description: hackathon.description,
         prizePool: hackathon.prizePool,
-        // teams: hackathon.teams,
         winningTeamId: hackathon.winningTeamId,
-        // approvedParticipants: hackathon.approvedParticipants,
         approvedTeams: hackathon.approvedTeams,
-        // approvedParticipantsLength: Int;
         pendingRequests: pendingRequests
-        // pendingRequestsLength: Int;
     };
     self.hackathons.set(msg.hackathonId, newHackathon);
   }
@@ -232,12 +206,10 @@ contract HackerOne with Deployable {
     let i = teamIndex;
     while (i + 1 < pendingRequestsLength) {
         pendingRequests.set(i, pendingRequests.get(i+1)!!);
-        // self.hackathons.get(msg.id)!!.pendingRequests.set(i,  self.hackathons.get(msg.id)!!.pendingRequests.get(i+1)!!);
         i += 1;
     }
     pendingRequests.set(pendingRequestsLength - 1, null);
     approvedTeams.set(approvedTeamsLength, teamId);
-    // self.hackathons.get(msg.id)!!.approvedParticipants.set(_approvedParticipantsLength, participant);
 
     let newHackathon = Hackathon {
         id: hackathon.id,
@@ -245,13 +217,9 @@ contract HackerOne with Deployable {
         name: hackathon.name,
         description: hackathon.description,
         prizePool: hackathon.prizePool,
-        // teams: hackathon.teams,
         winningTeamId: hackathon.winningTeamId,
-        // approvedParticipants: approvedTeams,
         approvedTeams: approvedTeams,
-        // approvedParticipantsLength: Int;
         pendingRequests: pendingRequests
-        // pendingRequestsLength: Int;
     };
     self.hackathons.set(msg.hackathonId, newHackathon);
 
@@ -269,18 +237,17 @@ contract HackerOne with Deployable {
         name: hackathon.name,
         description: hackathon.description,
         prizePool: hackathon.prizePool,
-        // teams: hackathon.teams,
         winningTeamId: msg.teamId,
-        // approvedParticipants: approvedTeams,
         approvedTeams: hackathon.approvedTeams,
-        // approvedParticipantsLength: Int;
         pendingRequests: hackathon.pendingRequests
-        // pendingRequestsLength: Int;
     };
     self.hackathons.set(msg.hackathonId, newHackathon);
   }
-
 }
+
+// struct HackathonTeams {
+//     hackathonTeams: map<Int, Int>;
+// }
 
 // struct Hacker {
 //     addr: Address;
