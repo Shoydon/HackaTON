@@ -9,7 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@orbs-network/ton-access": "^2.3.3",
     "@tabler/icons-react": "^3.24.0",
+    "@ton/core": "^0.59.0",
+    "@ton/ton": "^15.1.0",
     "@tonconnect/ui-react": "^2.0.9",
     "clsx": "^2.1.1",
     "framer-motion": "^11.13.1",

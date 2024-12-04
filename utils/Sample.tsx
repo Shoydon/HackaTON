@@ -1,4 +1,4 @@
-import { TactCounter } from "@/compileCode/tact_Counter";
+import { hackaTON } from "@/compileCode/HackaTON"; 
 import TonConnectSender from "@/hooks/TonConnectSender";
 import { getHttpEndpoint } from "@orbs-network/ton-access";
 import { Sender, toNano } from "@ton/core";
@@ -26,7 +26,7 @@ const CounterFrontEnd = () => {
 
         const client = new TonClient({ endpoint });
 
-        const counterContract = await TactCounter.fromInit(BigInt(1));
+        const counterContract = await hackaTON.fromInit(BigInt(1));
         const tactCounter = client.open(counterContract);
 
         const value = await tactCounter.getCounter();
