@@ -1,5 +1,11 @@
 import "@stdlib/deploy";
 
+struct Hacker {
+    addr: Address;
+    dataHash: String;
+    devScore: Int;
+}
+
 struct Hackathon {
     id: Int;
     creator: Address;
@@ -55,8 +61,8 @@ message SetWinnerParams {
     teamId: Int;
 }
 
-contract HackerOne with Deployable {
-    
+contract HackerOne with Deployable {  
+  hackers: map<Address, Hacker>;
   hackersCount: Int = 0;
   hackathons: map<Int, Hackathon>;
   hackathonsCount: Int = 0;
@@ -65,9 +71,34 @@ contract HackerOne with Deployable {
   platformOwner: Address;
 
   init() {
+    self.hackers = emptyMap();
     self.hackathons = emptyMap();
     self.teams = emptyMap();
     self.platformOwner = sender();
+  }
+
+  // create hacker
+  receive(msg: CreateHackerParams) {
+    let addr: Address = sender();
+    let _hacker: Hacker = Hacker {
+    addr: addr,
+    dataHash: msg.dataHash,
+    devScore: msg.devScore
+    };
+
+    self.hackers.set(addr, _hacker);
+    self.hackersCount += 1;
+  }  
+
+  // get Hacker
+  get fun getHacker(_addr: Address): Hacker {
+    require(self.hackers.exists(_addr), "Hacker doesn't exist");
+    return self.hackers.get(_addr)!!;
+  }
+
+  // get all hackers
+  get fun allHackers(): map<Address, Hacker> {
+    return self.hackers;
   }
 
   // create Hackathon
@@ -85,7 +116,7 @@ contract HackerOne with Deployable {
     self.hackathons.set(self.hackathonsCount, _hackathon);
     self.hackathonsCount += 1;
   }
-
+  // get Hackathon
   get fun getHackathon(_id: Int): Hackathon {
     require(self.hackathons.exists(_id), "Hackathon doesn't exist");
     return self.hackathons.get(_id)!!;
@@ -127,6 +158,7 @@ contract HackerOne with Deployable {
         length: length
     };
     self.teams.set(msg.teamId, newTeam);
+
   }
 
   // Join hackathon (team)
@@ -180,7 +212,6 @@ contract HackerOne with Deployable {
     let inPendingList = false;
     let inApproveList = false;
 
-
     let approvedTeams = hackathon.approvedTeams;
     let approvedTeamsLength = 0;
     foreach(_, val in approvedTeams) {
@@ -222,7 +253,7 @@ contract HackerOne with Deployable {
         pendingRequests: pendingRequests
     };
     self.hackathons.set(msg.hackathonId, newHackathon);
-
+    
   }
 
   // setWinner
@@ -244,28 +275,6 @@ contract HackerOne with Deployable {
     self.hackathons.set(msg.hackathonId, newHackathon);
   }
 }
-
-// struct HackathonTeams {
-//     hackathonTeams: map<Int, Int>;
-// }
-
-// struct Hacker {
-//     addr: Address;
-//     dataHash: String;
-//     pastHackathons: map<Int, Int>;
-//     teamInvites: map<Int, Int>;
-//     teamsJoined: map<Int, Int>;
-//     devScore: Int;
-// }
-
-// message GetTeam
-
-// message CreateHackathonTeamParams {
-//     id: Int;
-//     name: String;
-//     leader: Address;
-//     members: map<Int, Address>;
-// }
 
 // request To Join Hackathon (individual)
 //   receive(msg: JoinHackathonParams) {
